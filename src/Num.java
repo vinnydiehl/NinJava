@@ -11,16 +11,32 @@ public class Num {
     };
 
     /**
-     *Ordinalizes a number
-     *EX: 1 => 1st
-     *31 => 31st
-     *49 => 49th
+     * Returns a string with the ordinal form of an integer.
      *
+     * <pre>
+     * {@code
+     * Num.ordinalize(1)   // =&gt; "1st"
+     * Num.ordinalize(5)   // =&gt; "5th"
+     * Num.ordinalize(12)  // =&gt; "12th"
+     * Num.ordinalize(42)  // =&gt; "42nd"
+     * Num.ordinalize(44)  // =&gt; "44th"
+     * }
+     * </pre>
+     *
+     * @param n the number to be ordinalized
+     * @return the ordinal form of {@code n}
      */
-    public String  ordinalize(int x){
-        int y = x%10;
-        String end = {"th","st","nd","rd","th","th","th","th","th","th","th"};
-        return String.valueOf(x)+end[y];
+    public static String ordinalize(int n) {
+        int last = Math.abs(n % 10);
+
+        // If the ones place is 1 through 3, but the tens place isn't 1 (we
+        // still want 11-13 to get "th"), use st/nd/rd. Anything else gets
+        // "th".
+        return n + (
+            Math.abs(n % 100) / 10 != 1 && last >= 1 && last <= 3
+            ? new String[] {null, "st", "nd", "rd"}[last]
+            : "th"
+        );
     }
 
     /**
